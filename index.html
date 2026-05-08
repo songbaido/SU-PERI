@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>民办本科高校高质量发展情况查询</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --line: #e6eaf0;
+      --brand: #2563eb;
+      --brand-dark: #1d4ed8;
+      --soft: #eef4ff;
+      --shadow: 0 12px 30px rgba(15, 23, 42, .08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(37, 99, 235, .10), transparent 28%),
+        radial-gradient(circle at 100% 20%, rgba(14, 165, 233, .10), transparent 25%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(37, 99, 235, .20);
+      background: rgba(255,255,255,.75);
+      color: var(--brand-dark);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .toolbar {
+      background: rgba(255, 255, 255, .88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: end;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(12px);
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: #344054;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    select,
+    input {
+      width: 100%;
+      height: 42px;
+      border: 1px solid #d0d7e2;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .12);
+    }
+
+    .button {
+      height: 42px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--brand);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .12s ease, background .12s ease;
+    }
+
+    .button:hover {
+      background: var(--brand-dark);
+    }
+
+    .button:active {
+      transform: translateY(1px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .stat {
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+      padding: 16px;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat .value {
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, .95);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .table-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .table-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475467;
+      border-bottom: 1px solid var(--line);
+      padding: 13px 14px;
+      text-align: left;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 900;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid #eef2f6;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: #f9fbff;
+    }
+
+    .rank {
+      display: inline-flex;
+      min-width: 32px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--brand-dark);
+      font-weight: 900;
+    }
+
+    .school {
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #f2f4f7;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 40px 18px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .remark {
+      margin: 18px 0 34px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .75);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 920px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+        position: static;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 20px, 1200px);
+        padding-top: 22px;
+      }
+
+      .toolbar,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .table-head {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">民办本科高校高质量发展情况查询</div>
+      <h1>苏湃（SU-PERI）2026年民办本科高校高质量发展评价</h1>
+      <p class="subtitle">
+        选择“整体排名”可查看按最终分数降序排列的全国前 50 强；选择整体排名或具体省份后，均可继续按整体情况、民办普通本科、独立学院、民办职业本科筛选。
+      </p>
+    </section>
+
+    <section class="toolbar" aria-label="筛选条件">
+      <div class="field">
+        <label for="scopeSelect">查看范围</label>
+        <select id="scopeSelect"></select>
+      </div>
+
+      <div class="field" id="categoryField">
+        <label for="categorySelect">学校性质筛选</label>
+        <select id="categorySelect">
+          <option value="all">整体情况</option>
+          <option value="privateRegular">民办普通本科</option>
+          <option value="independent">独立学院</option>
+          <option value="privateVocational">民办职业本科</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="keywordInput">关键词搜索</label>
+        <input id="keywordInput" type="search" placeholder="搜索学校、地区、类型..." />
+      </div>
+
+      <button class="button" id="resetButton" type="button">重置筛选</button>
+      <button class="button" id="exportButton" type="button">导出表格</button>
+    </section>
+
+    <section class="stats" aria-label="统计概览">
+      <div class="stat">
+        <div class="label">当前展示</div>
+        <div class="value" id="shownCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">涉及省份</div>
+        <div class="value" id="provinceCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">最高全国排名</div>
+        <div class="value" id="bestRank">-</div>
+      </div>
+      <div class="stat">
+        <div class="label">最高分学校</div>
+        <div class="value" id="topSchool" style="font-size:18px; line-height:1.35;">-</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="table-head">
+        <h2 class="table-title" id="tableTitle">整体排名 Top 50</h2>
+        <div class="table-note" id="tableNote">按最终分数降序排列</div>
+      </div>
+      <div class="table-wrap" id="tableWrap"></div>
+    </section>
+
+    <section class="remark" aria-label="备注">
+      备注：这只是初步情况，仅供参考，最终结果见苏州大学民办教育研究中心公众号发布的系列报告。
+    </section>
+  </main>
+
+  <script id="rank-data" type="text/plain">序号	学校名称	省份	所在地区	学校性质	办学类型	区域	最终分数
+1	北京城市学院	北京	北京市	民办	综合类	东部	18.74447392
+2	北京邮电大学世纪学院	北京	北京市	独立学院	综合类	东部	14.68512144
+3	北京工业大学耿丹学院	北京	北京市	独立学院	综合类	东部	9.568143905
+4	首都师范大学科德学院	北京	北京市	独立学院	艺术类	东部	1.591511936
+5	北京第二外国语学院中瑞酒店管理学院	北京	北京市	独立学院	综合类	东部	0.211625583
+6	北京金融科技学院	北京	北京市	民办	财经类	东部	0.530503979
+7	南开大学滨海学院	天津	天津市	独立学院	综合类	东部	1.458885942
+8	天津仁爱学院	天津	天津市	民办	综合类	东部	32.09637615
+9	天津天狮学院	天津	天津市	民办	综合类	东部	3.759021925
+10	天津财经大学珠江学院	天津	天津市	独立学院	综合类	东部	8.134637012
+11	北京科技大学天津学院	天津	天津市	独立学院	综合类	东部	12.15798574
+12	天津理工大学中环信息学院	天津	天津市	独立学院	综合类	东部	3.050457965
+13	天津医科大学临床医学院	天津	天津市	独立学院	医药类	东部	0.007112455
+14	天津师范大学津沽学院	天津	天津市	独立学院	综合类	东部	0.17683466
+15	天津外国语大学滨海外事学院	天津	天津市	独立学院	语言类	东部	0.185565738
+16	天津商业大学宝德学院	天津	天津市	独立学院	财经类	东部	6.012686591
+17	天津传媒学院	天津	天津市	民办	艺术类	东部	1.680135712
+18	燕山大学里仁学院	河北	秦皇岛市	独立学院	理工类	东部	3.050397878
+19	沧州交通学院	河北	沧州市	民办	理工类	东部	3.094755266
+20	河北大学工商学院	河北	保定市	独立学院	综合类	东部	0.353669319
+21	燕京理工学院	河北	廊坊市	民办	理工类	东部	15.56145004
+22	河北科技学院	河北	保定市	民办	理工类	东部	1.768823175
+23	河北师范大学汇华学院	河北	石家庄市	独立学院	师范类	东部	1.592362014
+24	华北理工大学冀唐学院	河北	唐山市	独立学院	医药类	东部	0.265251989
+25	河北美术学院	河北	石家庄市	民办	艺术类	东部	8.577286502
+26	华北理工大学轻工学院	河北	唐山市	独立学院	理工类	东部	1.326259947
+27	石家庄铁道大学四方学院	河北	石家庄市	独立学院	理工类	东部	1.148849279
+28	河北工程技术学院	河北	石家庄市	民办	理工类	东部	7.515968749
+29	保定理工学院	河北	保定市	民办	理工类	东部	2.47584912
+30	北京中医药大学东方学院	河北	廊坊市	独立学院	医药类	东部	0.375197643
+31	河北医科大学临床学院	河北	石家庄市	独立学院	医药类	东部	0.442086649
+32	河北经贸大学经济管理学院	河北	石家庄市	独立学院	财经类	东部	10.61009302
+33	河北传媒学院	河北	石家庄市	民办	艺术类	东部	7.471793576
+34	河北东方学院	河北	廊坊市	民办	综合类	东部	1.768523075
+35	河北外国语学院	河北	石家庄市	民办	语言类	东部	2.829354553
+36	河北农业大学现代科技学院	河北	保定市	独立学院	农林类	东部	4.641972198
+37	河北工程大学科信学院	河北	邯郸市	独立学院	理工类	东部	4.067692887
+38	河北地质大学华信学院	河北	石家庄市	独立学院	综合类	东部	1.856763926
+39	晋中信息学院	山西	晋中市	民办	理工类	中部	9.726076407
+40	山西工商学院	山西	太原市	民办	财经类	中部	13.3510168
+41	山西医科大学晋祠学院	山西	太原市	独立学院	医药类	中部	0.176258651
+42	山西晋中理工学院	山西	晋中市	民办	理工类	中部	6.32183908
+43	山西财经大学华商学院	山西	太原市	独立学院	财经类	中部	0
+44	山西应用科技学院	山西	太原市	民办	综合类	中部	4.24422134
+45	运城职业技术大学	山西	运城市	民办职业本科	综合类	中部	5.216622458
+46	内蒙古大学创业学院	内蒙古	呼和浩特市	独立学院	综合类	西部	1.061007958
+47	内蒙古鸿德文理学院	内蒙古	呼和浩特市	民办	综合类	西部	2.122150086
+48	沈阳工学院	辽宁	抚顺市	民办	理工类	东北	25.68742134
+49	大连东软信息学院	辽宁	大连市	民办	理工类	东北	39.70088548
+50	辽宁何氏医学院	辽宁	沈阳市	民办	医药类	东北	3.271842181
+51	大连科技学院	辽宁	大连市	民办	理工类	东北	24.31595803
+52	辽宁对外经贸学院	辽宁	大连市	民办	财经类	东北	10.12689231
+53	沈阳城市建设学院	辽宁	沈阳市	民办	理工类	东北	9.553696629
+54	沈阳城市学院	辽宁	沈阳市	民办	综合类	东北	10.12577107
+55	大连理工大学城市学院	辽宁	大连市	独立学院	理工类	东北	6.719717065
+56	大连医科大学中山学院	辽宁	大连市	独立学院	医药类	东北	0.176864249
+57	辽宁中医药大学杏林学院	辽宁	沈阳市	独立学院	医药类	东北	1.414677277
+58	大连财经学院	辽宁	大连市	民办	财经类	东北	4.422648277
+59	大连艺术学院	辽宁	大连市	民办	艺术类	东北	5.751602847
+60	辽宁师范大学海华学院	辽宁	大连市	独立学院	综合类	东北	1.061007958
+61	辽宁理工学院	辽宁	锦州市	民办	理工类	东北	1.857451022
+62	沈阳科技学院	辽宁	沈阳市	民办	理工类	东北	7.605581465
+63	辽宁财贸学院	辽宁	葫芦岛市	民办	财经类	东北	2.744895437
+64	辽宁传媒学院	辽宁	沈阳市	民办	艺术类	东北	1.591511936
+65	大连工业大学艺术与信息工程学院	辽宁	大连市	独立学院	理工类	东北	4.877113352
+66	沈阳工业大学工程学院	辽宁	辽阳市	独立学院	理工类	东北	0
+67	沈阳航空航天大学北方科技学院	辽宁	沈阳市	独立学院		东北	0.000733878
+68	锦州医科大学医疗学院	辽宁	锦州市	独立学院	医药类	东北	0.356195673
+69	辽宁理工职业大学	辽宁	锦州市	民办职业本科	理工类	东北	2.210668404
+70	长春人文学院	吉林	长春市	民办	综合类	东北	7.117595049
+71	长春电子科技学院	吉林	长春市	民办	理工类	东北	9.328028294
+72	长春科技学院	吉林	长春市	民办	综合类	东北	8.931606883
+73	吉林建筑科技学院	吉林	长春市	民办	理工类	东北	5.791335102
+74	吉林外国语大学	吉林	长春市	民办	语言类	东北	16.97664288
+75	吉林师范大学博达学院	吉林	四平市	独立学院	综合类	东北	2.742687987
+76	长春工业大学人文信息学院	吉林	长春市	独立学院	综合类	东北	2.033983635
+77	长春财经学院	吉林	长春市	民办	财经类	东北	7.029177719
+78	长春大学旅游学院	吉林	长春市	独立学院	综合类	东北	3.583046381
+79	吉林动画学院	吉林	长春市	民办	艺术类	东北	9.638262822
+80	长春建筑学院	吉林	长春市	民办	理工类	东北	10.5225357
+81	长春光华学院	吉林	长春市	民办	综合类	东北	21.30857648
+82	黑龙江东方学院	黑龙江	哈尔滨市	民办	综合类	东北	8.621316603
+83	黑龙江财经学院	黑龙江	哈尔滨市	民办	财经类	东北	3.670708007
+84	齐齐哈尔工程学院	黑龙江	齐齐哈尔市	民办	综合类	东北	1.813901368
+85	哈尔滨石油学院	黑龙江	哈尔滨市	民办	理工类	东北	4.023712752
+86	黑龙江工商学院	黑龙江	哈尔滨市	民办	综合类	东北	17.15498648
+87	哈尔滨华德学院	黑龙江	哈尔滨市	民办	理工类	东北	6.102162985
+88	哈尔滨剑桥学院	黑龙江	哈尔滨市	民办	综合类	东北	9.107960142
+89	哈尔滨远东理工学院	黑龙江	哈尔滨市	民办	理工类	东北	4.510812985
+90	哈尔滨广厦学院	黑龙江	哈尔滨市	民办	综合类	东北	1.283356493
+91	哈尔滨信息工程学院	黑龙江	哈尔滨市	民办	理工类	东北	2.478106423
+92	黑龙江外国语学院	黑龙江	哈尔滨市	民办	语言类	东北	4.1556145
+93	黑龙江工程学院昆仑旅游学院	黑龙江	哈尔滨市	独立学院	理工类	东北	0.000364601
+94	上海杉达学院	上海	上海市	民办	财经类	东部	15.03572868
+95	上海师范大学天华学院	上海	上海市	独立学院	综合类	东部	9.993261571
+96	上海外国语大学贤达经济人文学院	上海	上海市	独立学院	财经类	东部	4.862953139
+97	上海建桥学院	上海	上海市	民办	财经类	东部	22.24031209
+98	上海视觉艺术学院	上海	上海市	民办	艺术类	东部	4.345475817
+99	上海兴伟学院	上海	上海市	民办	综合类	东部	0.588872857
+100	上海中侨职业技术大学	上海	上海市	民办职业本科	财经类	东部	4.067237311
+101	上海立达学院	上海	上海市	民办	财经类	东部	3.58687528
+102	三江学院	江苏	南京市	民办	综合类	东部	35.98626512
+103	南通理工学院	江苏	南通市	民办	理工类	东部	36.95900872
+104	无锡太湖学院	江苏	无锡市	民办	综合类	东部	24.40385233
+105	南京大学金陵学院	江苏	南京市	独立学院	综合类	东部	0.353669319
+106	南京传媒学院	江苏	南京市	民办	艺术类	东部	8.75331565
+107	南京师范大学泰州学院	江苏	泰州市	独立学院	师范类	东部	1.237916736
+108	东南大学成贤学院	江苏	南京市	独立学院	综合类	东部	10.34568926
+109	南京医科大学康达学院	江苏	连云港市	独立学院	医药类	东部	6.37227307
+110	常州大学怀德学院	江苏	泰州市	独立学院	理工类	东部	12.95344258
+111	南京航空航天大学金城学院	江苏	南京市	独立学院	理工类	东部	7.338933471
+112	南京中医药大学翰林学院	江苏	泰州市	独立学院	医药类	东部	2.125202346
+113	南京邮电大学通达学院	江苏	扬州市	独立学院	综合类	东部	3.1050827
+114	扬州大学广陵学院	江苏	扬州市	独立学院	综合类	东部	8.23205981
+115	南通大学杏林学院	江苏	南通市	独立学院	综合类	东部	1.509886709
+116	苏州大学应用技术学院	江苏	苏州市	独立学院	综合类	东部	15.64986737
+117	南京理工大学紫金学院	江苏	南京市	独立学院	理工类	东部	8.84173298
+118	南京理工大学泰州科技学院	江苏	泰州市	独立学院	理工类	东部	14.14682383
+119	中国矿业大学徐海学院	江苏	徐州市	独立学院	综合类	东部	11.05216622
+120	江苏大学京江学院	江苏	镇江市	独立学院	综合类	东部	14.14677277
+121	南京工业大学浦江学院	江苏	南京市	独立学院	理工类	东部	2.741332834
+122	南京师范大学中北学院	江苏	镇江市	独立学院	综合类	东部	2.564130087
+123	江苏科技大学苏州理工学院	江苏	苏州市	独立学院	理工类	东部	4.244282152
+124	江苏师范大学科文学院	江苏	徐州市	独立学院	综合类	东部	9.195488592
+125	南京财经大学红山学院	江苏	镇江市	独立学院	综合类	东部	0.44220411
+126	苏州科技大学天平学院	江苏	苏州市	独立学院	综合类	东部	1.072220926
+127	南京审计大学金审学院	江苏	南京市	独立学院	财经类	东部	8.046002481
+128	宁波财经学院	浙江	宁波市	民办	财经类	东部	16.76040248
+129	浙江树人学院	浙江	杭州市	民办	综合类	东部	95.05436905
+130	浙江越秀外国语学院	浙江	绍兴市	民办	语言类	东部	31.48169774
+131	温州商学院	浙江	温州市	民办	财经类	东部	19.63359729
+132	浙江农林大学暨阳学院	浙江	绍兴市	独立学院	农林类	东部	4.9524786
+133	浙江工商大学杭州商学院	浙江	杭州市	独立学院	财经类	东部	20.3808907
+134	宁波大学科学技术学院	浙江	宁波市	独立学院	综合类	东部	36.29576004
+135	浙江工业大学之江学院	浙江	杭州市	独立学院	理工类	东部	24.6931211
+136	绍兴文理学院元培学院	浙江	绍兴市	独立学院	综合类	东部	2.921849418
+137	浙江师范大学行知学院	浙江	金华市	独立学院	综合类	东部	7.692307692
+138	浙江财经大学东方学院	浙江	嘉兴市	独立学院	财经类	东部	27.85187633
+139	杭州师范大学钱江学院	浙江	杭州市	独立学院	综合类	东部	0.839964633
+140	浙江理工大学科技与艺术学院	浙江	杭州市	独立学院	理工类	东部	3.271711293
+141	上海财经大学浙江学院	浙江	金华市	独立学院	财经类	东部	5.835543767
+142	温州医科大学仁济学院	浙江	温州市	独立学院	医药类	东部	5.526083112
+143	同济大学浙江学院	浙江	嘉兴市	独立学院	综合类	东部	8.045977011
+144	杭州电子科技大学信息工程学院	浙江	杭州市	独立学院	理工类	东部	37.62099782
+145	中国计量大学现代科技学院	浙江	杭州市	独立学院	理工类	东部	3.13882669
+146	浙江中医药大学滨江学院	浙江	杭州市	独立学院	医药类	东部	1.945181256
+147	浙江广厦建设职业技术大学	浙江	金华市	民办职业本科	理工类	东部	5.481874447
+148	安徽三联学院	安徽	合肥市	民办	理工类	中部	8.57740358
+149	安徽外国语学院	安徽	合肥市	民办	语言类	中部	5.305717926
+150	淮北理工学院	安徽	淮北市	民办	理工类	中部	1.856946864
+151	安徽文达信息工程学院	安徽	合肥市	民办	理工类	中部	7.604501164
+152	皖江工学院	安徽	马鞍山市	民办	理工类	中部	20.64598971
+153	安徽新华学院	安徽	合肥市	民办	综合类	中部	34.88219113
+154	安徽信息工程学院	安徽	芜湖市	民办	理工类	中部	59.46097138
+155	蚌埠工商学院	安徽	蚌埠市	民办	财经类	中部	22.01618928
+156	安徽医科大学临床医学院	安徽	合肥市	独立学院	医药类	中部	0.442153675
+157	马鞍山学院	安徽	马鞍山市	民办	理工类	中部	6.189467287
+158	合肥经济学院	安徽	合肥市	民办	财经类	中部	11.58274194
+159	合肥城市学院	安徽	合肥市	民办	理工类	中部	0.972648435
+160	芜湖学院	安徽	芜湖市	民办	师范类	中部	0.884194704
+161	阜阳理工学院	安徽	阜阳市	民办	综合类	中部	0.707475673
+162	厦门大学嘉庚学院	福建	漳州市	独立学院	综合类	东部	37.00265252
+163	福建农林大学金山学院	福建	福州市	独立学院	综合类	东部	3.713547246
+164	集美大学诚毅学院	福建	厦门市	独立学院	综合类	东部	21.26584802
+165	福州外语外贸学院	福建	福州市	民办	财经类	东部	67.90720799
+166	福建师范大学协和学院	福建	福州市	独立学院	综合类	东部	10.09163064
+167	福州大学至诚学院	福建	福州市	独立学院	综合类	东部	17.63925729
+168	闽南科技学院	福建	泉州市	民办	理工类	东部	8.356871142
+169	阳光学院	福建	福州市	民办	综合类	东部	22.10777541
+170	厦门工学院	福建	厦门市	民办	理工类	东部	29.7994648
+171	厦门华厦学院	福建	厦门市	民办	综合类	东部	9.859563851
+172	闽南理工学院	福建	泉州市	民办	理工类	东部	46.86202346
+173	福州理工学院	福建	福州市	民办	理工类	东部	3.316237245
+174	仰恩大学	福建	泉州市	民办	综合类	东部	14.14682162
+175	福州工商学院	福建	福州市	民办	财经类	东部	8.047134676
+176	泉州信息工程学院	福建	泉州市	民办	理工类	东部	18.52343059
+177	泉州职业技术大学	福建	泉州市	民办职业本科	理工类	东部	14.76569408
+178	南昌理工学院	江西	南昌市	民办	综合类	中部	22.90074043
+179	江西科技学院	江西	南昌市	民办	综合类	中部	34.48330895
+180	江西服装学院	江西	南昌市	民办	艺术类	中部	11.009283
+181	江西工程学院	江西	新余市	民办	理工类	中部	8.311569234
+182	南昌工学院	江西	南昌市	民办	理工类	中部	25.68602911
+183	南昌航空大学科技学院	江西	南昌市	独立学院	理工类	中部	15.56145004
+184	南昌大学科学技术学院	江西	南昌市	独立学院	综合类	中部	4.023108697
+185	南昌交通学院	江西	南昌市	民办	理工类	中部	9.593280283
+186	江西师范大学科学技术学院	江西	南昌市	独立学院	综合类	中部	2.917795314
+187	江西农业大学南昌商学院	江西	南昌市	独立学院	综合类	中部	3.492599279
+188	南昌大学共青学院	江西	九江市	独立学院	综合类	中部	7.338653785
+189	江西财经大学现代经济管理学院	江西	南昌市	独立学院	财经类	中部	11.40588001
+190	江西应用科技学院	江西	南昌市	民办	综合类	中部	19.49602122
+191	景德镇艺术职业大学	江西	景德镇市	民办职业本科	艺术类	中部	2.033636586
+192	赣南师范大学科技学院	江西	赣州市	独立学院	师范类	中部	1.149638719
+193	南昌应用技术师范学院	江西	南昌市	民办	师范类	中部	3.934571176
+194	南昌职业大学	江西	南昌市	民办职业本科	综合类	中部	6.808134394
+195	江西软件职业技术大学	江西	南昌市	民办职业本科	理工类	中部	8.930150309
+196	烟台南山学院	山东	烟台市	民办	综合类	东部	47.21485411
+197	潍坊科技学院	山东	潍坊市	民办	综合类	东部	52.21124964
+198	山东英才学院	山东	济南市	民办	综合类	东部	16.13679788
+199	青岛黄海学院	山东	青岛市	民办	综合类	东部	43.41381893
+200	青岛滨海学院	山东	青岛市	民办	综合类	东部	11.22900088
+201	烟台理工学院	山东	烟台市	民办	综合类	东部	16.49004193
+202	齐鲁医药学院	山东	淄博市	民办	医药类	东部	12.55549973
+203	山东协和学院	山东	济南市	民办	医药类	东部	42.84173271
+204	聊城大学东昌学院	山东	聊城市	独立学院	综合类	东部	9.372362675
+205	齐鲁理工学院	山东	济南市	民办	综合类	东部	32.49721356
+206	青岛城市学院	山东	青岛市	民办	理工类	东部	20.8666356
+207	青岛工学院	山东	青岛市	民办	综合类	东部	4.333154562
+208	山东华宇工学院	山东	德州市	民办	理工类	东部	24.22656534
+209	潍坊理工学院	山东	潍坊市	民办	综合类	东部	3.448275862
+210	山东财经大学东方学院	山东	泰安市	独立学院	综合类	东部	0.707344323
+211	青岛农业大学海都学院	山东	烟台市	独立学院	综合类	东部	2.833690619
+212	烟台科技学院	山东	烟台市	民办	综合类	东部	8.134488161
+213	泰山科技学院	山东	泰安市	民办	理工类	东部	8.488259856
+214	青岛恒星科技学院	山东	青岛市	民办	综合类	东部	25.72944297
+215	山东现代学院	山东	济南市	民办	综合类	东部	2.299785973
+216	山东财经大学燕山学院	山东	济南市	独立学院	财经类	东部	4.22943E-05
+217	青岛电影学院	山东	青岛市	民办	艺术类	东部	2.041060516
+218	山东工程职业技术大学	山东	济南市	民办职业本科	理工类	东部	13.61626879
+219	山东外国语职业技术大学	山东	日照市	民办职业本科	语言类	东部	4.730327144
+220	山东外事职业大学	山东	威海市	民办职业本科	综合类	东部	6.277630416
+221	黄河科技学院	河南	郑州市	民办	理工类	中部	37.31251958
+222	郑州科技学院	河南	郑州市	民办	理工类	中部	23.60760035
+223	郑州工业应用技术学院	河南	郑州市	民办	理工类	中部	25.99489796
+224	黄河交通学院	河南	焦作市	民办	理工类	中部	13.39532183
+225	商丘工学院	河南	商丘市	民办	理工类	中部	11.75968456
+226	郑州升达经贸管理学院	河南	郑州市	民办	财经类	中部	21.22031995
+227	河南开封科技传媒学院	河南	开封市	民办	综合类	中部	4.686118479
+228	信阳学院	河南	信阳市	民办	综合类	中部	7.780837086
+229	新乡医学院三全学院	河南	新乡市	独立学院	医药类	中部	5.481874447
+230	郑州工商学院	河南	郑州市	民办	财经类	中部	28.64749312
+231	郑州财经学院	河南	郑州市	民办	财经类	中部	15.11950332
+232	中原科技学院	河南	郑州市	民办	师范类	中部	9.902829721
+233	商丘学院	河南	商丘市	民办	综合类	中部	6.366170688
+234	安阳学院	河南	安阳市	民办	综合类	中部	11.53854536
+235	郑州经贸学院	河南	郑州市	民办	财经类	中部	22.3254799
+236	新乡工程学院	河南	新乡市	民办	理工类	中部	4.332606905
+237	河南科技职业大学	河南	周口市	民办职业本科	理工类	中部	4.863054658
+238	郑州商学院	河南	郑州市	民办	财经类	中部	21.04332449
+239	郑州西亚斯学院	河南	郑州市	民办	综合类	中部	26.39300742
+240	郑州美术学院	河南	郑州市	民办	艺术类	中部	1.774843974
+241	漯河食品工程职业大学	河南	漯河市	民办职业本科	综合类	中部	3.448275862
+242	武汉东湖学院	湖北	武汉市	民办	综合类	中部	18.56801397
+243	武昌理工学院	湖北	武汉市	民办	综合类	中部	30.85854571
+244	武汉工商学院	湖北	武汉市	民办	综合类	中部	19.05476201
+245	文华学院	湖北	武汉市	民办	综合类	中部	6.852343059
+246	武汉生物工程学院	湖北	武汉市	民办	理工类	中部	8.84173298
+247	武汉城市学院	湖北	武汉市	民办	理工类	中部	6.852629659
+248	武汉华夏理工学院	湖北	武汉市	民办	理工类	中部	11.27396312
+249	武昌工学院	湖北	武汉市	民办	综合类	中部	17.77295994
+250	荆州学院	湖北	荆州市	民办	理工类	中部	3.801945181
+251	武汉工程科技学院	湖北	武汉市	民办	理工类	中部	3.934925876
+252	武汉设计工程学院	湖北	武汉市	民办	艺术类	中部	8.798648639
+253	湖北工业大学工程技术学院	湖北	武汉市	独立学院	理工类	中部	19.40760389
+254	武汉体育学院体育科技学院	湖北	武汉市	独立学院	体育类	中部	1.768380362
+255	武昌首义学院	湖北	武汉市	民办	理工类	中部	10.96432116
+256	长江大学文理学院	湖北	荆州市	独立学院	综合类	中部	7.073644501
+257	武汉晴川学院	湖北	武汉市	民办	综合类	中部	8.974787708
+258	武汉学院	湖北	武汉市	民办	综合类	中部	15.87139358
+259	汉口学院	湖北	武汉市	民办	综合类	中部	6.809180722
+260	湖北商贸学院	湖北	武汉市	民办	财经类	中部	8.002089976
+261	三峡大学科技学院	湖北	宜昌市	独立学院	综合类	中部	18.74810826
+262	湖北恩施学院	湖北	恩施土家族苗族自治州	民办	综合类	中部	6.763995103
+263	湖北文理学院理工学院	湖北	襄阳市	独立学院	理工类	中部	5.658788042
+264	湖北师范大学文理学院	湖北	黄石市	独立学院	师范类	中部	0.797002997
+265	湖北医药学院药护学院	湖北	十堰市	独立学院	医药类	中部	0.972655324
+266	武汉传媒学院	湖北	武汉市	民办	艺术类	中部	2.565243397
+267	武汉工程大学邮电与信息工程学院	湖北	武汉市	独立学院	理工类	中部	4.1556145
+268	湖北工程学院新技术学院	湖北	孝感市	独立学院	综合类	中部	2.122069211
+269	湖北大学知行学院	湖北	武汉市	独立学院	理工类	中部	1.679960937
+270	武汉纺织大学外经贸学院	湖北	武汉市	独立学院	综合类	中部	0.928741587
+271	湖北经济学院法商学院	湖北	武汉市	独立学院	财经类	中部	14.81279408
+272	湖北汽车工业学院科技学院	湖北	十堰市	独立学院	理工类	中部	13.08587156
+273	武汉文理学院	湖北	武汉市	民办	综合类	中部	1.680083979
+274	长沙医学院	湖南	长沙市	民办	医药类	中部	35.67639257
+275	湖南涉外经济学院	湖南	长沙市	民办	财经类	中部	29.22420366
+276	湖南农业大学东方科技学院	湖南	长沙市	独立学院	综合类	中部	4.111407718
+277	湖南信息学院	湖南	长沙市	民办	理工类	中部	15.47466714
+278	中南林业科技大学涉外学院	湖南	长沙市	独立学院	综合类	中部	3.183033409
+279	湖南应用技术学院	湖南	常德市	民办	综合类	中部	5.482517988
+280	湖南中医药大学湘杏学院	湖南	长沙市	独立学院	医药类	中部	0.00982603
+281	张家界学院	湖南	张家界市	民办	综合类	中部	3.227309055
+282	长沙理工大学城南学院	湖南	长沙市	独立学院	理工类	中部	3.006973471
+283	湖南交通工程学院	湖南	衡阳市	民办	理工类	中部	2.07901745
+284	南华大学船山学院	湖南	衡阳市	独立学院	综合类	中部	0.089478679
+285	湖南文理学院芙蓉学院	湖南	常德市	独立学院	综合类	中部	1.061043834
+286	湖南工业大学科技学院	湖南	株洲市	独立学院	综合类	中部	0.884316129
+287	衡阳师范学院南岳学院	湖南	衡阳市	独立学院	师范类	中部	1.856781322
+288	湖南工程学院应用技术学院	湖南	湘潭市	独立学院	理工类	中部	1.94518886
+289	湖南科技大学潇湘学院	湖南	湘潭市	独立学院	综合类	中部	0.00033551
+290	湖南理工学院南湖学院	湖南	岳阳市	独立学院	理工类	中部	0.619020241
+291	湘潭大学兴湘学院	湖南	湘潭市	独立学院	综合类	中部	0.267065638
+292	湘潭理工学院	湖南	湘潭市	民办	综合类	中部	1.503094607
+293	湖南软件职业技术大学	湖南	湘潭市	民办职业本科	理工类	中部	3.801945181
+294	电子科技大学中山学院	广东	中山市	独立学院	理工类	东部	23.91849485
+295	广州新华学院	广东	广州市	民办	综合类	东部	24.31522381
+296	珠海科技学院	广东	珠海市	民办	综合类	东部	42.48452697
+297	广州南方学院	广东	广州市	民办	综合类	东部	16.18295311
+298	广州城市理工学院	广东	广州市	民办	理工类	东部	29.93300317
+299	北京理工大学珠海学院	广东	珠海市	独立学院	理工类	东部	28.63190262
+300	东莞城市学院	广东	东莞市	民办	理工类	东部	12.95356187
+301	广东科技学院	广东	东莞市	民办	综合类	东部	56.1904791
+302	广东理工学院	广东	肇庆市	民办	理工类	东部	16.66666667
+303	广东培正学院	广东	广州市	民办	财经类	东部	24.62588875
+304	广东白云学院	广东	广州市	民办	综合类	东部	16.04959174
+305	华南农业大学珠江学院	广东	广州市	独立学院	综合类	东部	5.307678955
+306	广州华商学院	广东	广州市	民办	财经类	东部	23.69860488
+307	广东东软学院	广东	佛山市	民办	理工类	东部	25.11378989
+308	广州工商学院	广东	广州市	民办	财经类	东部	15.34592846
+309	广东外语外贸大学南国商学院	广东	广州市	独立学院	综合类	东部	6.189437234
+310	广州应用科技学院	广东	广州市	民办	综合类	东部	9.019069891
+311	广州理工学院	广东	广州市	民办	综合类	东部	17.81912482
+312	广州华立学院	广东	广州市	民办	理工类	东部	11.14295479
+313	广州商学院	广东	广州市	民办	财经类	东部	37.75611444
+314	湛江科技学院	广东	湛江市	民办	综合类	东部	13.61677766
+315	广州软件学院	广东	广州市	民办	理工类	东部	14.81222566
+316	广州科技职业技术大学	广东	广州市	民办职业本科	综合类	东部	2.654992759
+317	广东工商职业技术大学	广东	肇庆市	民办职业本科	综合类	东部	3.978779841
+318	柳州工学院	广西	柳州市	民办	理工类	西部	10.78790314
+319	南宁学院	广西	南京市	民办	理工类	西部	51.94564545
+320	桂林学院	广西	桂林市	民办	综合类	西部	17.33041546
+321	广西中医药大学赛恩斯新医药学院	广西	南宁市	独立学院	医药类	西部	3.359987044
+322	南宁理工学院	广西	桂林市	民办	理工类	西部	3.890752812
+323	桂林信息科技学院	广西	桂林市	民办	理工类	西部	7.162103124
+324	广西民族大学相思湖学院	广西	南宁市	独立学院	民族类	西部	5.791444499
+325	广西外国语学院	广西	南宁市	民办	语言类	西部	1.857029987
+326	北海艺术设计学院	广西	北海市	民办	艺术类	西部	3.184198702
+327	北京航空航天大学北海学院	广西	北海市	独立学院	综合类	东部	0
+328	南宁师范大学师园学院	广西	南宁市	独立学院	师范类	西部	0.355732634
+329	广西城市职业大学	广西	崇左市	民办职业本科	综合类	西部	4.862953139
+330	三亚学院	海南	三亚市	民办	综合类	东部	100
+331	海口经济学院	海南	海口市	民办	综合类	东部	20.20559075
+332	海南科技职业大学	海南	海口市	民办职业本科	理工类	东部	16.84385115
+333	重庆财经学院	重庆	重庆市	民办	财经类	西部	8.090232325
+334	重庆工程学院	重庆	重庆市	民办	理工类	西部	12.99759396
+335	重庆人文科技学院	重庆	重庆市	民办	综合类	西部	11.49469316
+336	重庆移通学院	重庆	重庆市	民办	理工类	西部	14.32360743
+337	重庆城市科技学院	重庆	重庆市	民办	综合类	西部	11.89213086
+338	重庆对外经贸学院	重庆	重庆市	民办	财经类	西部	16.84369416
+339	重庆外语外事学院	重庆	重庆市	民办	语言类	西部	2.740937224
+340	重庆工商大学派斯学院	重庆	重庆市	独立学院	财经类	西部	7.604089944
+341	重庆机电职业技术大学	重庆	重庆市	民办职业本科	理工类	西部	7.294661164
+342	成都理工大学工程技术学院	四川	乐山市	独立学院	理工类	西部	23.78846502
+343	成都锦城学院	四川	成都市	民办	综合类	西部	29.13351017
+344	西南财经大学天府学院	四川	绵阳市	独立学院	综合类	西部	6.189213086
+345	四川大学锦江学院	四川	眉山市	独立学院	综合类	西部	11.18479222
+346	电子科技大学成都学院	四川	成都市	独立学院	理工类	西部	28.51490147
+347	四川工商学院	四川	成都市	民办	综合类	西部	11.62703057
+348	成都东软学院	四川	成都市	民办	理工类	西部	12.99767369
+349	四川文化艺术学院	四川	绵阳市	民办	艺术类	西部	2.652781964
+350	成都文理学院	四川	成都市	民办	综合类	西部	3.979007626
+351	绵阳城市学院	四川	绵阳市	民办	理工类	西部	2.564323108
+352	四川工业科技学院	四川	德阳市	民办	综合类	西部	5.039954793
+353	西南交通大学希望学院	四川	南充市	独立学院	理工类	西部	16.44562334
+354	四川传媒学院	四川	成都市	民办	综合类	西部	7.825936559
+355	四川电影电视学院	四川	成都市	民办	艺术类	西部	5.128968776
+356	成都外国语学院	四川	成都市	民办	语言类	西部	1.149425287
+357	成都银杏酒店管理学院	四川	成都市	民办	财经类	西部	5.747126437
+358	成都艺术职业大学	四川	成都市	民办职业本科	艺术类	西部	2.652706104
+359	吉利学院	四川	成都市	民办	理工类	西部	11.71701674
+360	贵阳信息科技学院	贵州	贵阳市	民办	理工类	西部	2.61026143
+361	贵阳人文科技学院	贵州	贵阳市	民办	民族类	西部	13.43943413
+362	遵义医科大学医学与科技学院	贵州	遵义市	独立学院	医药类	西部	0.680237431
+363	贵州医科大学神奇民族医药学院	贵州	贵阳市	独立学院	医药类	西部	0.353669319
+364	贵州黔南科技学院	贵州	黔南布依族苗族自治州	民办	综合类	西部	1.061007958
+365	贵州中医药大学时珍学院	贵州	贵阳市	独立学院	医药类	西部	0.185100384
+366	贵州黔南经济学院	贵州	黔南布依族苗族自治州	民办	财经类	西部	3.18443477
+367	茅台学院	贵州	遵义市	民办	理工类	西部	25.55306041
+368	云南经济管理学院	云南	昆明市	民办	财经类	西部	11.98149662
+369	昆明医科大学海源学院	云南	昆明市	独立学院	医药类	西部	7.442555572
+370	丽江文化旅游学院	云南	丽江市	民办	综合类	西部	6.720253224
+371	昆明理工大学津桥学院	云南	昆明市	独立学院	理工类	西部	8.046534558
+372	昆明文理学院	云南	昆明市	民办	师范类	西部	2.078176881
+373	云南工商学院	云南	昆明市	民办	理工类	西部	27.36574335
+374	滇池学院	云南	昆明市	民办	综合类	西部	5.526083112
+375	昆明城市学院	云南	昆明市	民办	综合类	西部	4.333163915
+376	昆明传媒学院	云南	昆明市	民办	艺术类	西部	0.928381963
+377	西京学院	陕西	西安市	民办	理工类	西部	80.06485282
+378	西安培华学院	陕西	西安市	民办	综合类	西部	22.02577395
+379	陕西国际商贸学院	陕西	咸阳市	民办	财经类	西部	20.02761744
+380	西安外事学院	陕西	西安市	民办	综合类	西部	18.2581786
+381	陕西科技大学镐京学院	陕西	咸阳市	独立学院	理工类	西部	14.41230717
+382	西安翻译学院	陕西	西安市	民办	语言类	西部	14.32548746
+383	西安欧亚学院	陕西	西安市	民办	财经类	西部	10.74270557
+384	西安明德理工学院	陕西	西安市	民办	综合类	西部	10.52219145
+385	西安交通大学城市学院	陕西	西安市	独立学院	理工类	西部	9.770196312
+386	西安思源学院	陕西	西安市	民办	综合类	西部	9.284199483
+387	西安建筑科技大学华清学院	陕西	西安市	独立学院	理工类	西部	8.045977011
+388	西安汽车职业大学	陕西	西安市	民办职业本科	理工类	西部	4.951461761
+389	西安交通工程学院	陕西	西安市	民办	理工类	西部	3.757736516
+390	西安信息职业大学	陕西	西安市	民办职业本科	理工类	西部	3.183023873
+391	陕西服装工程学院	陕西	咸阳市	民办	综合类	西部	2.476280316
+392	西安财经大学行知学院	陕西	西安市	独立学院	财经类	西部	2.475685234
+393	西安工商学院	陕西	西安市	民办	综合类	西部	2.122306743
+394	西安科技大学高新学院	陕西	西安市	独立学院	综合类	西部	1.990050518
+395	延安大学西安创新学院	陕西	西安市	独立学院	综合类	西部	1.813783687
+396	西北大学现代学院	陕西	西安市	独立学院	综合类	西部	0.796499621
+397	西安理工大学高科学院	陕西	西安市	独立学院	理工类	西部	0.265307533
+398	西安电子科技大学长安学院	陕西	西安市	独立学院	理工类	西部	0
+399	长安大学兴华学院	陕西	西安市	独立学院	理工类	西部	0
+400	兰州信息科技学院	甘肃	兰州市	民办	理工类	西部	14.05848677
+401	兰州工商学院	甘肃	兰州市	民办	财经类	西部	9.947419952
+402	兰州博文科技学院	甘肃	兰州市	民办	理工类	西部	3.803525693
+403	青海大学昆仑学院	青海	西宁市	独立学院	综合类	西部	0.796717652
+404	银川能源学院	宁夏	银川市	民办	理工类	西部	6.587421906
+405	宁夏大学新华学院	宁夏	银川市	独立学院	综合类	西部	21.48541114
+406	宁夏理工学院	宁夏	石嘴山市	民办	理工类	西部	14.14711777
+407	银川科技学院	宁夏	银川市	民办	理工类	西部	10.8311229
+408	新疆农业大学科学技术学院	新疆	乌鲁木齐市	独立学院		西部	1.061007958
+409	新疆天山职业技术大学	新疆	乌鲁木齐市	民办职业本科	综合类	西部	0.707342415</script>
+
+  <script>
+    const rawText = document.getElementById('rank-data').textContent.trim();
+
+    function parseTSV(text) {
+      const lines = text.split(/\n+/).filter(Boolean);
+      const headers = lines[0].split('\t').map(s => s.trim());
+      return lines.slice(1).map(line => {
+        const cells = line.split('\t');
+        const item = {};
+        headers.forEach((header, index) => {
+          item[header] = (cells[index] || '').trim();
+        });
+        item['原始序号'] = Number(item['序号']);
+        item['最终分数'] = Number(item['最终分数'] || 0);
+        return item;
+      });
+    }
+
+    const natureLabelMap = {
+      '民办': '民办普通本科',
+      '独立学院': '独立学院',
+      '民办职业本科': '民办职业本科'
+    };
+
+    function displayNature(value) {
+      return natureLabelMap[value] || value || '未标注';
+    }
+
+    function compareScoreDesc(a, b) {
+      if (b['最终分数'] !== a['最终分数']) return b['最终分数'] - a['最终分数'];
+      return a['原始序号'] - b['原始序号'];
+    }
+
+    const allSchools = parseTSV(rawText);
+    const nationalSorted = [...allSchools].sort(compareScoreDesc);
+
+    nationalSorted.forEach((school, index) => {
+      school.nationalRank = index + 1;
+    });
+
+    const byProvince = new Map();
+    allSchools.forEach(school => {
+      if (!byProvince.has(school['省份'])) byProvince.set(school['省份'], []);
+      byProvince.get(school['省份']).push(school);
+    });
+
+    byProvince.forEach(list => {
+      [...list].sort(compareScoreDesc).forEach((school, index) => {
+        school.provinceRank = index + 1;
+      });
+    });
+
+    const provinceOrder = [...byProvince.keys()];
+
+    const scopeSelect = document.getElementById('scopeSelect');
+    const categoryField = document.getElementById('categoryField');
+    const categorySelect = document.getElementById('categorySelect');
+    const keywordInput = document.getElementById('keywordInput');
+    const resetButton = document.getElementById('resetButton');
+    const exportButton = document.getElementById('exportButton');
+    const tableWrap = document.getElementById('tableWrap');
+    const tableTitle = document.getElementById('tableTitle');
+    const tableNote = document.getElementById('tableNote');
+
+    const shownCount = document.getElementById('shownCount');
+    const provinceCount = document.getElementById('provinceCount');
+    const bestRank = document.getElementById('bestRank');
+    const topSchool = document.getElementById('topSchool');
+
+    function initScopeOptions() {
+      const options = [
+        `<option value="overall">整体排名</option>`,
+        ...provinceOrder.map(p => `<option value="${escapeAttr(p)}">${escapeHTML(p)}</option>`)
+      ];
+      scopeSelect.innerHTML = options.join('');
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function escapeAttr(value) {
+      return escapeHTML(value);
+    }
+
+    function normalizeText(value) {
+      return String(value ?? '').toLowerCase().trim();
+    }
+
+    function filterByKeyword(list) {
+      const keyword = normalizeText(keywordInput.value);
+      if (!keyword) return list;
+
+      return list.filter(school => {
+        const haystack = [
+          school['学校名称'],
+          school['省份'],
+          school['所在地区'],
+          displayNature(school['学校性质']),
+          school['办学类型'],
+          school['区域'],
+          school.nationalRank,
+          school.provinceRank
+        ].join(' ').toLowerCase();
+
+        return haystack.includes(keyword);
+      });
+    }
+
+    function getCategoryFiltered(list) {
+      const category = categorySelect.value;
+
+      if (category === 'all') return list;
+      if (category === 'privateRegular') return list.filter(s => s['学校性质'] === '民办');
+      if (category === 'independent') return list.filter(s => s['学校性质'] === '独立学院');
+      if (category === 'privateVocational') return list.filter(s => s['学校性质'] === '民办职业本科');
+
+      return list;
+    }
+
+    function getCurrentCategoryName() {
+      return categorySelect.options[categorySelect.selectedIndex]?.text || '整体情况';
+    }
+
+    function getTitleWithKeyword(title) {
+      const keyword = keywordInput.value.trim();
+      return keyword ? `${title}（关键词：${keyword}）` : title;
+    }
+
+    function getCurrentData() {
+      const scope = scopeSelect.value;
+      const category = categorySelect.value;
+      const categoryName = getCurrentCategoryName();
+
+      if (scope === 'overall') {
+        const base = getCategoryFiltered(nationalSorted);
+        const top50 = base.slice(0, 50);
+        const title = category === 'all' ? '整体排名 Top 50' : `全国${categoryName}排名 Top 50`;
+        return {
+          mode: 'overall',
+          category,
+          list: filterByKeyword(top50),
+          title: getTitleWithKeyword(title),
+          note: category === 'all'
+            ? '按最终分数降序排列，展示全国前 50 强'
+            : `按最终分数降序排列，展示全国${categoryName}前 50 强`
+        };
+      }
+
+      const province = scope;
+      const base = [...(byProvince.get(province) || [])].sort((a, b) => {
+        if (a.provinceRank !== b.provinceRank) return a.provinceRank - b.provinceRank;
+        return a.nationalRank - b.nationalRank;
+      });
+
+      const filtered = filterByKeyword(getCategoryFiltered(base));
+
+      return {
+        mode: 'province',
+        category,
+        province,
+        list: filtered,
+        title: getTitleWithKeyword(`${province}高校${categoryName}排名`),
+        note: '省内排名按最终分数降序计算，排名 1 表示该省最高'
+      };
+    }
+
+    function renderStats(list) {
+      shownCount.textContent = list.length;
+      provinceCount.textContent = new Set(list.map(s => s['省份'])).size || '-';
+
+      if (!list.length) {
+        bestRank.textContent = '-';
+        topSchool.textContent = '-';
+        return;
+      }
+
+      const best = [...list].sort((a, b) => a.nationalRank - b.nationalRank)[0];
+      const top = [...list].sort(compareScoreDesc)[0];
+
+      bestRank.textContent = best.nationalRank;
+      topSchool.textContent = top['学校名称'];
+    }
+
+    function buildTableModel(context) {
+      const isOverall = context.mode === 'overall';
+      const isProvinceAll = context.mode === 'province' && context.category === 'all';
+
+      if (isOverall) {
+        return {
+          headers: ['序号', '学校名称', '学校性质', '全国排名', '省份', '所在地区', '办学类型', '区域'],
+          rows: context.list.map((school, index) => [
+            index + 1,
+            school['学校名称'],
+            displayNature(school['学校性质']),
+            school.nationalRank,
+            school['省份'],
+            school['所在地区'],
+            school['办学类型'] || '未标注',
+            school['区域']
+          ])
+        };
+      }
+
+      if (isProvinceAll) {
+        return {
+          headers: ['序号', '学校名称', '学校性质', '省内排名', '国内排名', '所在地区', '办学类型'],
+          rows: context.list.map((school, index) => [
+            index + 1,
+            school['学校名称'],
+            displayNature(school['学校性质']),
+            school.provinceRank,
+            school.nationalRank,
+            school['所在地区'],
+            school['办学类型'] || '未标注'
+          ])
+        };
+      }
+
+      return {
+        headers: ['序号', '学校名称', '省内排名', '国内排名', '所在地区', '办学类型'],
+        rows: context.list.map((school, index) => [
+          index + 1,
+          school['学校名称'],
+          school.provinceRank,
+          school.nationalRank,
+          school['所在地区'],
+          school['办学类型'] || '未标注'
+        ])
+      };
+    }
+
+    function renderTable(context) {
+      tableTitle.textContent = context.title;
+      tableNote.textContent = context.note;
+      renderStats(context.list);
+
+      if (!context.list.length) {
+        tableWrap.innerHTML = `<div class="empty">暂无符合条件的数据</div>`;
+        return;
+      }
+
+      const model = buildTableModel(context);
+      const thead = `<thead><tr>${model.headers.map(h => `<th>${escapeHTML(h)}</th>`).join('')}</tr></thead>`;
+      const tbody = `<tbody>${model.rows.map(row => `<tr>${row.map((cell, cellIndex) => {
+        if (cellIndex === 0) return `<td><span class="rank">${escapeHTML(cell)}</span></td>`;
+        if (cellIndex === 1) return `<td><span class="school">${escapeHTML(cell)}</span></td>`;
+        if (cellIndex === 2 && (model.headers[cellIndex] === '学校性质')) return `<td><span class="tag">${escapeHTML(cell)}</span></td>`;
+        return `<td>${escapeHTML(cell)}</td>`;
+      }).join('')}</tr>`).join('')}</tbody>`;
+
+      tableWrap.innerHTML = `<table>${thead}${tbody}</table>`;
+    }
+
+
+
+    function xmlEscape(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&apos;');
+    }
+
+    function columnName(index) {
+      let name = '';
+      let n = index + 1;
+      while (n > 0) {
+        const remainder = (n - 1) % 26;
+        name = String.fromCharCode(65 + remainder) + name;
+        n = Math.floor((n - 1) / 26);
+      }
+      return name;
+    }
+
+    function buildWorksheetXML(title, headers, rows) {
+      const allRows = [[title], headers, ...rows];
+      const rowXML = allRows.map((row, rowIndex) => {
+        const r = rowIndex + 1;
+        const cells = row.map((value, colIndex) => {
+          const ref = `${columnName(colIndex)}${r}`;
+          return `<c r="${ref}" t="inlineStr"><is><t>${xmlEscape(value)}</t></is></c>`;
+        }).join('');
+        return `<row r="${r}">${cells}</row>`;
+      }).join('');
+
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <sheetData>${rowXML}</sheetData>
+</worksheet>`;
+    }
+
+    const crcTable = (() => {
+      const table = new Uint32Array(256);
+      for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) {
+          c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+        }
+        table[n] = c >>> 0;
+      }
+      return table;
+    })();
+
+    function crc32(bytes) {
+      let crc = 0xffffffff;
+      for (const byte of bytes) {
+        crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+      }
+      return (crc ^ 0xffffffff) >>> 0;
+    }
+
+    function utf8Bytes(text) {
+      return new TextEncoder().encode(text);
+    }
+
+    function uint16(value) {
+      return [value & 0xff, (value >>> 8) & 0xff];
+    }
+
+    function uint32(value) {
+      return [value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff];
+    }
+
+    function dosDateTime(date = new Date()) {
+      const time = ((date.getHours() & 31) << 11) | ((date.getMinutes() & 63) << 5) | Math.floor(date.getSeconds() / 2);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = Math.max(date.getFullYear(), 1980) - 1980;
+      const dosDate = ((year & 127) << 9) | ((month & 15) << 5) | (day & 31);
+      return { time, date: dosDate };
+    }
+
+    function createZip(files) {
+      const localParts = [];
+      const centralParts = [];
+      let offset = 0;
+      const { time, date } = dosDateTime();
+
+      files.forEach(file => {
+        const nameBytes = utf8Bytes(file.name);
+        const dataBytes = utf8Bytes(file.content);
+        const crc = crc32(dataBytes);
+        const localHeader = new Uint8Array([
+          ...uint32(0x04034b50),
+          ...uint16(20),
+          ...uint16(0x0800),
+          ...uint16(0),
+          ...uint16(time),
+          ...uint16(date),
+          ...uint32(crc),
+          ...uint32(dataBytes.length),
+          ...uint32(dataBytes.length),
+          ...uint16(nameBytes.length),
+          ...uint16(0)
+        ]);
+        localParts.push(localHeader, nameBytes, dataBytes);
+
+        const centralHeader = new Uint8Array([
+          ...uint32(0x02014b50),
+          ...uint16(20),
+          ...uint16(20),
+          ...uint16(0x0800),
+          ...uint16(0),
+          ...uint16(time),
+          ...uint16(date),
+          ...uint32(crc),
+          ...uint32(dataBytes.length),
+          ...uint32(dataBytes.length),
+          ...uint16(nameBytes.length),
+          ...uint16(0),
+          ...uint16(0),
+          ...uint16(0),
+          ...uint16(0),
+          ...uint32(0),
+          ...uint32(offset)
+        ]);
+        centralParts.push(centralHeader, nameBytes);
+        offset += localHeader.length + nameBytes.length + dataBytes.length;
+      });
+
+      const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+      const centralOffset = offset;
+      const endRecord = new Uint8Array([
+        ...uint32(0x06054b50),
+        ...uint16(0),
+        ...uint16(0),
+        ...uint16(files.length),
+        ...uint16(files.length),
+        ...uint32(centralSize),
+        ...uint32(centralOffset),
+        ...uint16(0)
+      ]);
+
+      return new Blob([...localParts, ...centralParts, endRecord], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+    }
+
+    function sanitizeFileName(value) {
+      return String(value || '导出表格')
+        .replace(/[\\/:*?"<>|]/g, '_')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 90) || '导出表格';
+    }
+
+    function sanitizeSheetName(value) {
+      return String(value || '排名表')
+        .replace(/[\\/?*\[\]:]/g, ' ')
+        .trim()
+        .slice(0, 31) || '排名表';
+    }
+
+    function exportCurrentTable() {
+      const context = getCurrentData();
+      const model = buildTableModel(context);
+
+      if (!model.rows.length) {
+        alert('当前没有可导出的数据。');
+        return;
+      }
+
+      const sheetName = sanitizeSheetName(context.title);
+      const worksheetXML = buildWorksheetXML(context.title, model.headers, model.rows);
+      const files = [
+        {
+          name: '[Content_Types].xml',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+  <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+  <Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
+</Types>`
+        },
+        {
+          name: '_rels/.rels',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+</Relationships>`
+        },
+        {
+          name: 'xl/workbook.xml',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <sheets><sheet name="${xmlEscape(sheetName)}" sheetId="1" r:id="rId1"/></sheets>
+</workbook>`
+        },
+        {
+          name: 'xl/_rels/workbook.xml.rels',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>`
+        },
+        {
+          name: 'xl/styles.xml',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="1"><font><sz val="11"/><name val="Microsoft YaHei"/></font></fonts><fills count="1"><fill><patternFill patternType="none"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/></cellXfs></styleSheet>`
+        },
+        {
+          name: 'xl/worksheets/sheet1.xml',
+          content: worksheetXML
+        }
+      ];
+
+      const blob = createZip(files);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${sanitizeFileName(context.title)}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function updateView() {
+      renderTable(getCurrentData());
+    }
+
+    resetButton.addEventListener('click', () => {
+      scopeSelect.value = 'overall';
+      categorySelect.value = 'all';
+      keywordInput.value = '';
+      updateView();
+    });
+
+    exportButton.addEventListener('click', exportCurrentTable);
+
+    scopeSelect.addEventListener('change', updateView);
+    categorySelect.addEventListener('change', updateView);
+    keywordInput.addEventListener('input', updateView);
+
+    initScopeOptions();
+    updateView();
+  </script>
+</body>
+</html>
